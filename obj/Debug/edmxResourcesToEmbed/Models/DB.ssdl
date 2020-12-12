@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmpresasPatitoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="animal">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="idAnimal_class" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="animal_clases">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cstate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="idState" Type="int" />
+    <Property Name="Edad" Type="int" />
+  </EntityType>
+  <Association Name="FK_animal_animal_clases1">
+    <End Role="animal_clases" Type="Self.animal_clases" Multiplicity="1" />
+    <End Role="animal" Type="Self.animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="animal_clases">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="animal">
+        <PropertyRef Name="idAnimal_class" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_cstate">
+    <End Role="cstate" Type="Self.cstate" Multiplicity="0..1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cstate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="idState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EmpresasPatitoModelStoreContainer">
+    <EntitySet Name="animal" EntityType="Self.animal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="animal_clases" EntityType="Self.animal_clases" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cstate" EntityType="Self.cstate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_animal_animal_clases1" Association="Self.FK_animal_animal_clases1">
+      <End Role="animal_clases" EntitySet="animal_clases" />
+      <End Role="animal" EntitySet="animal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_cstate" Association="Self.FK_Usuario_cstate">
+      <End Role="cstate" EntitySet="cstate" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

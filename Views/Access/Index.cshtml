@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@*Muestro de mi vista*@
+
+<div class="row">
+    <form id="frm">
+        <div class="col-lg-6 col-lg-offset-3">
+            Usuario
+            <input type="text" name="user" />
+            Password
+            <input type="text" name="password" />
+            <input type="submit" class="btn btn-success" value="Entrar" />
+        </div>
+    </form>
+</div>
+
+
+@*Aqui interactua la vista con el controlador*@
+@section scripts{
+    <script>
+    $(document).ready(function () {
+        $("#frm").submit(function (e) {
+            e.preventDefault();
+            url = "@Url.Content("~/Access/Enter")"
+            parametros = $(this).serialize();
+            $.post(url, parametros, function (data) {
+                if (data == 1) {
+                    document.location.href = "@Url.Content("~/Home/Index")"
+                } else {
+                    alert(data);
+                }
+            })
+        })
+    })
+    </script>
+}
+

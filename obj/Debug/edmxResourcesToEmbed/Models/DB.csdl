@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmpresasPatitoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="cstate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Usuarios" Relationship="EmpresasPatitoModel.FK_Usuario_cstate" FromRole="cstate" ToRole="Usuario" />
+  </EntityType>
+  <EntityContainer Name="EmpresasPatitoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="cstates" EntityType="Self.cstate" />
+    <EntitySet Name="Usuarios" EntityType="EmpresasPatitoModel.Usuario" />
+    <AssociationSet Name="FK_Usuario_cstate" Association="EmpresasPatitoModel.FK_Usuario_cstate">
+      <End Role="cstate" EntitySet="cstates" />
+      <End Role="Usuario" EntitySet="Usuarios" />
+    </AssociationSet>
+    <EntitySet Name="animals" EntityType="EmpresasPatitoModel.animal" />
+    <EntitySet Name="animal_clases" EntityType="EmpresasPatitoModel.animal_clases" />
+    <AssociationSet Name="FK_animal_animal_clases1" Association="EmpresasPatitoModel.FK_animal_animal_clases1">
+      <End Role="animal_clases" EntitySet="animal_clases" />
+      <End Role="animal" EntitySet="animals" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="idState" Type="Int32" />
+    <Property Name="Edad" Type="Int32" />
+    <NavigationProperty Name="cstate" Relationship="EmpresasPatitoModel.FK_Usuario_cstate" FromRole="Usuario" ToRole="cstate" />
+  </EntityType>
+  <Association Name="FK_Usuario_cstate">
+    <End Type="EmpresasPatitoModel.cstate" Role="cstate" Multiplicity="0..1" />
+    <End Type="EmpresasPatitoModel.Usuario" Role="Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cstate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="idState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="animal">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idAnimal_class" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="animal_clases" Relationship="EmpresasPatitoModel.FK_animal_animal_clases1" FromRole="animal" ToRole="animal_clases" />
+  </EntityType>
+  <EntityType Name="animal_clases">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="animal" Relationship="EmpresasPatitoModel.FK_animal_animal_clases1" FromRole="animal_clases" ToRole="animal" />
+  </EntityType>
+  <Association Name="FK_animal_animal_clases1">
+    <End Type="EmpresasPatitoModel.animal_clases" Role="animal_clases" Multiplicity="1" />
+    <End Type="EmpresasPatitoModel.animal" Role="animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="animal_clases">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="animal">
+        <PropertyRef Name="idAnimal_class" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
